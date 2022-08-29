@@ -9,9 +9,10 @@ public class PlayerController : MonoBehaviour
 
     private float gravityValue = 9.81f;
     private float playerSpeed = 5f;
-    private float jumpHeight = 10f;
+    private float jumpHeight = 12f;
 
     private bool isGrounded;
+    private bool isFacingRight;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         CheckGrounded();
         PlayerMove();
         PlayerJump();
+        PlayerAttack();
     }
 
     void CheckGrounded()
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             isGrounded = false;
+            FallingSpeed();
         }
     }
 
@@ -47,13 +50,63 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveHorizontal = new Vector2(Input.GetAxis("Horizontal"), 0);
         transform.Translate(moveHorizontal * Time.deltaTime * playerSpeed);
+
+        // Determin Orintaion
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            isFacingRight = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            isFacingRight = false;
+        }
     }
 
     void PlayerJump()
-    {
+    {          
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             characterController.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
+    }
+
+    // ----------------------------------- Move Set ---------------------------------------------
+
+    void PlayerAttack()
+    {
+        GameObject medHitBox;
+        GameObject lightHitBox;
+        GameObject heavyHitBox;
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log("Medium Attack");
+            medHitBox = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+
+            medHitBox.AddComponent<Renderer>().material.SetColor("_Color", Color.red);
+            medHitBox.transform.position = transform.position;
+             
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("Light Attack");
+        }
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("Heavy Attack");
+        }
+        else if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("Special");
+        }
+    }
+
+    // ------------------------------ Aditional Physisics ---------------------------------------
+
+    void FallingSpeed()
+    {
+        Vector2 fallSpeed = new Vector2(0, -1);
+
+        characterController.AddForce(fallSpeed, ForceMode2D.Force);
     }
 }
