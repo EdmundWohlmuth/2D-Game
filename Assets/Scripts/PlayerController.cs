@@ -6,7 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     // decleration
     public Rigidbody2D characterController;
-    public GameObject character;
+
+    // damage boxes
+    [Header("Damage Boxes")]
+    public GameObject LdamageBox;
+    public GameObject MdamageBox;
+    public GameObject HdamageBox;
 
     // private float gravityValue = 9.81f;
     private float playerSpeed = 5f;
@@ -73,8 +78,6 @@ public class PlayerController : MonoBehaviour
         {
             updatePos = new Vector2((transform.position.x - 1), transform.position.y + 1);
         }
-
-         Debug.Log(updatePos);
     }
 
     void PlayerJump()
@@ -96,7 +99,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             Debug.Log("Medium Attack");
-            medHitBox = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            medHitBox = Instantiate(MdamageBox);
 
             medHitBox.transform.position = updatePos;           
         }
