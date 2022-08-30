@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 413584538}
+  characterPos: {fileID: 413584534}
 --- !u!70 &413584536
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
