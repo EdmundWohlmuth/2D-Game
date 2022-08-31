@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     // private float gravityValue = 9.81f;
     private float playerSpeed = 5f;
-    private float jumpHeight = 12f;
+    private float jumpHeight = 13f;
 
     private Vector2 updatePos; // checks player pos for attacks
 
@@ -32,8 +32,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {      
         CheckGrounded();
-        PlayerMove();
-        PlayerJump();
+        CheckMove();
         PlayerAttack();
     }
 
@@ -54,6 +53,17 @@ public class PlayerController : MonoBehaviour
     }
 
     // -------------------------------- Player Movement ----------------------------------------
+
+    void CheckMove() // checks to see if player is allowed to move
+    {
+        if (!Input.GetKey(KeyCode.G))
+        {
+            // add attack wait time here
+            PlayerMove();
+            PlayerJump();
+        }
+    }
+
     void PlayerMove()
     {
         Vector2 moveHorizontal = new Vector2(Input.GetAxis("Horizontal"), 0);
@@ -101,7 +111,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Medium Attack");
             medHitBox = Instantiate(MdamageBox);
 
-            medHitBox.transform.position = updatePos;           
+            if (isFacingRight) medHitBox.GetComponent<DamageBox>().isFacingRight = true;
+            else if (!isFacingRight) medHitBox.GetComponent<DamageBox>().isFacingRight = false;
+            medHitBox.transform.position = updatePos;
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3776875969689482395}
   - component: {fileID: 1788785882655078877}
   - component: {fileID: 6947580806828502092}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MedHitBox
-  m_TagString: Untagged
+  m_TagString: DamageBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
