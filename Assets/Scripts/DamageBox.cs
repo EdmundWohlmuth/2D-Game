@@ -49,6 +49,11 @@ public class DamageBox : MonoBehaviour
             hitBox = lDamageBox;
             damageKnockBack = new Vector2(75, 25);
             damageValue = 3f;
+
+            if (!isFacingRight)
+            {
+                damageKnockBack = damageKnockBack * -1;
+            }
         }
         else if (damageType == damageManager.medium)
         {
@@ -66,6 +71,11 @@ public class DamageBox : MonoBehaviour
             hitBox = hDamageBox;
             damageKnockBack = new Vector2(150, 80);
             damageValue = 8f;
+
+            if (!isFacingRight)
+            {
+                damageKnockBack = damageKnockBack * -1;
+            }
         }
         else if (damageType == damageManager.special)
         {

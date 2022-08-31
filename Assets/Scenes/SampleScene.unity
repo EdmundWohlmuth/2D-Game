@@ -384,9 +384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 413584538}
-  LdamageBox: {fileID: 0}
+  LdamageBox: {fileID: 6273288873538447837, guid: 038c37ee1aa86e94e8b240253de81c40, type: 3}
   MdamageBox: {fileID: 3301271747015288487, guid: 7b50e3da425677947b7c3e18847e6d68, type: 3}
-  HdamageBox: {fileID: 0}
+  HdamageBox: {fileID: 684099839155757702, guid: 15c5c904902a61f41a4e2eb2f2c43a69, type: 3}
 --- !u!70 &413584536
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

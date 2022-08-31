@@ -56,11 +56,20 @@ public class PlayerController : MonoBehaviour
 
     void CheckMove() // checks to see if player is allowed to move
     {
-        if (!Input.GetKey(KeyCode.G))
+        if (!Input.GetKey(KeyCode.G)) // this is terrible
         {
-            // add attack wait time here
-            PlayerMove();
-            PlayerJump();
+            if (!Input.GetKey(KeyCode.F))
+            {
+                if (!Input.GetKey(KeyCode.H))
+                {
+                    if (!Input.GetKey(KeyCode.T))
+                    {
+                        // add attack wait time here
+                        PlayerMove();
+                        PlayerJump();
+                    }
+                }
+            }
         }
     }
 
@@ -118,9 +127,20 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Light Attack");
+            lightHitBox = Instantiate(LdamageBox);
+
+            if (isFacingRight) lightHitBox.GetComponent<DamageBox>().isFacingRight = true;
+            else if (!isFacingRight) lightHitBox.GetComponent<DamageBox>().isFacingRight = false;
+            lightHitBox.transform.position = updatePos;
         }
         else if (Input.GetKeyDown(KeyCode.H))
         {
+            heavyHitBox = Instantiate(HdamageBox);
+            if (isFacingRight) heavyHitBox.GetComponent<DamageBox>().isFacingRight = true;
+            else if (!isFacingRight) heavyHitBox.GetComponent<DamageBox>().isFacingRight = false;
+
+            heavyHitBox.transform.position = updatePos;
+
             Debug.Log("Heavy Attack");
         }
         else if (Input.GetKeyDown(KeyCode.T))
