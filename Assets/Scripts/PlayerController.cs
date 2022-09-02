@@ -16,11 +16,13 @@ public class PlayerController : MonoBehaviour
     // private float gravityValue = 9.81f;
     private float playerSpeed = 5f;
     private float jumpHeight = 13f;
+    private float attackCoolDown;
 
     private Vector2 updatePos; // checks player pos for attacks
 
     private bool isGrounded;
     private bool isFacingRight; // determins the direction the player faces for attacks
+    private bool canMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -56,21 +58,11 @@ public class PlayerController : MonoBehaviour
 
     void CheckMove() // checks to see if player is allowed to move
     {
-        if (!Input.GetKey(KeyCode.G)) // this is terrible
+        if (canMove)
         {
-            if (!Input.GetKey(KeyCode.F))
-            {
-                if (!Input.GetKey(KeyCode.H))
-                {
-                    if (!Input.GetKey(KeyCode.T))
-                    {
-                        // add attack wait time here
-                        PlayerMove();
-                        PlayerJump();
-                    }
-                }
-            }
-        }
+            PlayerMove();
+            PlayerJump();
+        }      
     }
 
     void PlayerMove()
@@ -81,7 +73,7 @@ public class PlayerController : MonoBehaviour
         // Determin Orintaion
         if (Input.GetKeyDown(KeyCode.D))
         {
-            isFacingRight = true;;
+            isFacingRight = true;
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -117,6 +109,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
+            canMove = false;
+            attackCoolDown = 0.65f;
+            StartCoroutine(damageWait());
+
             Debug.Log("Medium Attack");
             medHitBox = Instantiate(MdamageBox);
 
@@ -126,6 +122,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
+            canMove = false;
+            attackCoolDown = 0.5f;
+            StartCoroutine(damageWait());
+
             Debug.Log("Light Attack");
             lightHitBox = Instantiate(LdamageBox);
 
@@ -135,10 +135,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.H))
         {
+            canMove = false;
+            attackCoolDown = 1f;
+            StartCoroutine(damageWait());
+
             heavyHitBox = Instantiate(HdamageBox);
             if (isFacingRight) heavyHitBox.GetComponent<DamageBox>().isFacingRight = true;
             else if (!isFacingRight) heavyHitBox.GetComponent<DamageBox>().isFacingRight = false;
-
             heavyHitBox.transform.position = updatePos;
 
             Debug.Log("Heavy Attack");
@@ -146,7 +149,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("Special");
-        }
+        }      
     }
 
     // ------------------------------ Aditional Physisics ---------------------------------------
@@ -156,5 +159,14 @@ public class PlayerController : MonoBehaviour
         Vector2 fallSpeed = new Vector2(0, -1);
 
         characterController.AddForce(fallSpeed, ForceMode2D.Force);
+    }
+
+    // ------------------------------ Attack IEnumerator ----------------------------------------
+
+    IEnumerator damageWait()
+    {
+        yield return new WaitForSeconds(attackCoolDown);
+        Debug.Log("Attack delay over");
+        canMove = true;
     }
 }
